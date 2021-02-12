@@ -8,6 +8,7 @@ A simple dedicated server Docker image for [Valheim](https://store.steampowered.
 
 ### Environment variables
 There are three environment variables you can configure:
+
 Variable        | Default        | Description
 --------------- | -------------- | --------------------------------------------------
 SERVER_NAME     | Valheim Server | The name displayed in the server list

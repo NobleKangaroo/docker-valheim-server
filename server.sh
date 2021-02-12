@@ -19,10 +19,7 @@ SERVER_WORLD="${SERVER_WORLD:-Valheim}"
 export LD_LIBRARY=./linux64:${LD_LIBRARY_PATH}
 export SteamAppId=892970
 
-# Trap SIGTERM and perform safe shutdown
-trap "kill -SIGINT $!" SIGTERM
-
-# Start the server
+# Start the server as a background job
 echo "Starting server:"
 echo " Name    : ${SERVER_NAME}"
 echo " Password: ${SERVER_PASSWORD}"
@@ -33,5 +30,10 @@ echo " World   : ${SERVER_WORLD}"
     -port 2456 \
     -world "${SERVER_WORLD}" \
     -savedir "/opt/valheim/data" \
-    -public 1
+    -public 1 &
+
+# Wait for server job to stop
+while wait $!; [[ $? -ne 0 ]]; do
+    true
+done
 

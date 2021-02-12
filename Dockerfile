@@ -37,12 +37,6 @@ RUN mkdir -pv /opt/steamcmd && \
     echo "***** Updating steamcmd *****" && \
     /opt/steamcmd/steamcmd.sh +quit
 
-# Copy steamclient.so
-RUN mkdir -pv /opt/steam/.steam/sdk32 && \
-    ln -s \
-        /opt/steamcmd/linux32/steamclient.so \
-        /opt/steam/.steam/sdk32/steamclient.so
-
 # Cleanup
 RUN apt-get clean && \
     rm -rf /var/lib/{apt,dpkg,cache,log}

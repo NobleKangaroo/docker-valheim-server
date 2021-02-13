@@ -32,7 +32,10 @@ echo " World   : ${SERVER_WORLD}"
     -savedir "/opt/valheim/data" \
     -public 1 &
 
-# Wait for server job to stop
+# Trap SIGTERM and perform safe shutdown
+trap "kill -s SIGINT $!" SIGTERM
+
+# Wait
 while wait $!; [[ $? -ne 0 ]]; do
     true
 done

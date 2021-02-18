@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Update server
+# Install or update the server
 /opt/steamcmd/steamcmd.sh \
     +login anonymous \
     +force_install_dir /opt/valheim/server \
@@ -33,7 +33,7 @@ echo " World   : ${SERVER_WORLD}"
 # Trap SIGTERM and perform safe shutdown
 trap "kill -s SIGINT $!" SIGTERM
 
-# Wait
+# Wait for the server process to end
 while wait $!; [[ $? -ne 0 ]]; do
     true
 done

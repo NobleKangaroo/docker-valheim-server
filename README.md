@@ -12,8 +12,9 @@ There are three environment variables you can configure:
 Variable        | Default        | Description
 --------------- | -------------- | --------------------------------------------------
 SERVER_NAME     | Valheim Server | The name displayed in the server list
-SERVER_PASSWORD | secret         | The password required to enter. *Cannot be blank!*
-SERVER_WORLD    | Valheim        | The world seed you would like to play on
+SERVER_PASSWORD | secret         | The password required to join the server. *Cannot be blank!*
+SERVER_PORT     | 2456           | The *first* of the three sequential ports the server will use
+SERVER_WORLD    | Valheim        | The name of the world file (e.g. Valheim.fwl and Valheim.db)
 
 ### Network
 Many of the Valheim dedicated server Docker images have `SERVER_PORT` as an argument, however they don't handle it correctly so the port doesn't actually get exposed. A result of this is that all of the Docker images I've found cannot be modified to run on alternate ports. I'm unaware of a way to do something like:
@@ -23,17 +24,13 @@ EXPOSE $((${SERVER_PORT} + 1))/udp
 EXPOSE $((${SERVER_PORT} + 2))/udp
 ```
 
-Therefore in this Docker image, ports 2456 through 2458 (UDP) are configured as an `EXPOSE`. You can use these ports, or map them to the host using ports of your own choosing - either with Docker CLI (with `-p`) or in docker-compose.yaml (with the `ports:` section). See the usages below for more info.
+Therefore in this Docker image, I have removed all `EXPOSE` declarations and instead require you to specify the ports as a publish - either with Docker CLI (with `-p`) or in docker-compose.yaml (with the `ports:` section) - which will result in Docker doing an implicit EXPOSE for those ports. You **MUST** publish the ports, or they will not be accessible from your host. See the usages below for an example of how to change the ports.
 
 ### Volumes
-There's two volumes that are mounted:
-  - **/opt/valheim/server** - Valheim server files
-  - **/opt/valheim/data** - Your worlds directory and admin/ban/permit lists
-
-### Other paths
-Additionally, the following paths are populated:
-  - **/opt/steamcmd** - steamcmd installation
-  - **/opt/steam** - Steam client installation
+There are three volumes which are mounted:
+  - **/opt/steamcmd** - The steamcmd installation. If not mounted, steamcmd will be fully reinstalled every container restart.
+  - **/opt/valheim/server** - Valheim dedicated server files. If not mounted, the Valheim dedicated server will be fully reinstalled every container restart.
+  - **/opt/valheim/data** - Your worlds directory and admin/ban/permit lists. If not mounted, the data for your worlds will not persist between container restarts.
 
 ## Usage
 Using this Docker image is easy. Follow one of the examples below to get started.
@@ -49,12 +46,36 @@ services:
     environment:
       - SERVER_NAME=My Super Cool Server
       - SERVER_PASSWORD=somethingrandom
+      - SERVER_PORT=2456
       - SERVER_WORLD=Qk4hdQK3Yj
     volumes:
-      - /path/to/data:/opt/valheim/data
+      - /path/to/steamcmd:/opt/steamcmd
       - /path/to/server:/opt/valheim/server
+      - /path/to/data:/opt/valheim/data
     ports:
       - 2456-2458:2456-2458/udp
+    restart: unless-stopped
+```
+
+### Docker Compose with different ports
+```yaml
+---
+version: 3.0
+services:
+  valheim-server:
+    container_name: valheim-server
+    image: noblekangaroo/valheim-server
+    environment:
+      - SERVER_NAME=My Super Cool Server
+      - SERVER_PASSWORD=somethingrandom
+      - SERVER_PORT=2466
+      - SERVER_WORLD=Qk4hdQK3Yj
+    volumes:
+      - /path/to/steamcmd:/opt/steamcmd
+      - /path/to/server:/opt/valheim/server
+      - /path/to/data:/opt/valheim/data
+    ports:
+      - 2466-2468:2466-2468/udp
     restart: unless-stopped
 ```
 
@@ -64,10 +85,12 @@ docker run -it --rm \
     --name valheim-server \
     --env SERVER_NAME="My Super Cool Server" \
     --env SERVER_PASSWORD="somethingrandom" \
+    --env SERVER_PORT=2456 \
     --env SERVER_WORLD=Qk4hdQK3Yj \
     -p 2456-2458:2456-2458/udp \
-    --volume=valheim_data:/opt/valheim/data \
+    --volume=valheim_steamcmd:/opt/steamcmd \
     --volume=valheim_server:/opt/valheim/server \
+    --volume=valheim_data:/opt/valheim/data \
     noblekangaroo/valheim-server
 ```
 

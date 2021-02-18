@@ -13,6 +13,7 @@ cp /opt/steamcmd/linux64/steamclient.so /opt/valheim/server/
 # Server settings and default values
 SERVER_NAME="${SERVER_NAME:-Valheim Server}"
 SERVER_PASSWORD="${SERVER_PASSWORD:-secret}"
+SERVER_PORT=${SERVER_PORT:-2456}
 SERVER_WORLD="${SERVER_WORLD:-Valheim}"
 
 # Valheim game
@@ -23,11 +24,12 @@ export SteamAppId=892970
 echo "Starting server:"
 echo " Name    : ${SERVER_NAME}"
 echo " Password: ${SERVER_PASSWORD}"
+echo " Port    : ${SERVER_PORT}"
 echo " World   : ${SERVER_WORLD}"
 /opt/valheim/server/valheim_server.x86_64 \
     -name "${SERVER_NAME}" \
     -password "${SERVER_PASSWORD}" \
-    -port 2456 \
+    -port ${SERVER_PORT} \
     -world "${SERVER_WORLD}" \
     -savedir "/opt/valheim/data" \
     -public 1 &

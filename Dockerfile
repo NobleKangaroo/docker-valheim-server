@@ -46,9 +46,6 @@ RUN mkdir -pv /opt/valheim
 COPY server.sh /opt/valheim
 RUN chmod +x /opt/valheim/server.sh
 
-# Expose ports
-EXPOSE 2456-2458/udp
-
 # Mount volumes
 VOLUME /opt/valheim/server
 VOLUME /opt/valheim/data

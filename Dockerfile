@@ -20,9 +20,7 @@ RUN apt-get -y update && \
     apt-get -y install \
         lib32gcc1 \
         lib32stdc++6 \
-        curl \
-        procps \
-        vim
+        curl
 
 # Install and update steamcmd
 RUN mkdir -pv /opt/steamcmd && \

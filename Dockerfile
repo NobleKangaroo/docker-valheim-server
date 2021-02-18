@@ -49,6 +49,7 @@ RUN chmod +x /opt/valheim/server.sh
 # Mount volumes
 VOLUME /opt/valheim/server
 VOLUME /opt/valheim/data
+VOLUME /opt/steamcmd
 
 # Start the server script
 CMD ["/opt/valheim/server.sh"]

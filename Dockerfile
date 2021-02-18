@@ -30,9 +30,6 @@ RUN mkdir -pv /opt/steamcmd && \
     tar -xzvf \
         /tmp/steamcmd.tar.gz \
         -C /opt/steamcmd/ && \
-    ls -la /opt/steamcmd/ && \
-    sleep 3 && \
-    echo "***** Updating steamcmd *****" && \
     /opt/steamcmd/steamcmd.sh +quit
 
 # Cleanup

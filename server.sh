@@ -33,8 +33,6 @@ echo " World   : ${SERVER_WORLD}"
 # Trap SIGTERM and perform safe shutdown
 trap "kill -s SIGINT $!" SIGTERM
 
-# Wait for the server process to end
-while wait $!; [[ $? -ne 0 ]]; do
-    true
-done
+# Wait for the job to end
+wait $!
 

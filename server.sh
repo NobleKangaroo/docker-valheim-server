@@ -31,7 +31,8 @@ echo " World   : ${SERVER_WORLD}"
     -password "${SERVER_PASSWORD}" \
     -port ${SERVER_PORT} \
     -world "${SERVER_WORLD}" \
-    -savedir "/opt/valheim/data" | tee -a /opt/valheim/server/server.log &
+    -savedir "/opt/valheim/data" \
+    -public 1 | tee -a /opt/valheim/server/server.log &
 
 # Trap SIGTERM and perform safe shutdown
 trap "kill -s SIGINT $!" SIGTERM

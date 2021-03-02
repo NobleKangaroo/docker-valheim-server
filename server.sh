@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# Update or install the server
-/opt/steamcmd/steamcmd.sh \
-    +login anonymous \
-    +force_install_dir /opt/valheim/server \
-    +app_update 896660 \
-    +exit
-
 # Server settings and default values
 SERVER_NAME="${SERVER_NAME:-Valheim Server}"
 SERVER_PASSWORD="${SERVER_PASSWORD:-secret}"
@@ -15,6 +8,16 @@ SERVER_WORLD="${SERVER_WORLD:-Valheim}"
 
 # Valheim server x86_64 library path
 export LD_LIBRARY_PATH=/opt/valheim/server/linux64:${LD_LIBRARY_PATH}
+
+# Update or install the server
+/opt/steamcmd/steamcmd.sh \
+    +login anonymous \
+    +force_install_dir /opt/valheim/server \
+    +app_update 896660 \
+    +exit
+
+# Trap SIGTERM and perform safe shutdown
+trap "kill -s SIGINT $!" SIGTERM
 
 # Start the server as a background job
 echo "Starting server:"
@@ -29,9 +32,6 @@ echo " World   : ${SERVER_WORLD}"
     -world "${SERVER_WORLD}" \
     -savedir "/opt/valheim/data" \
     -public 1 | tee -a /opt/valheim/server/server.log &
-
-# Trap SIGTERM and perform safe shutdown
-trap "kill -s SIGINT $!" SIGTERM
 
 # Wait for the job to end
 wait $!

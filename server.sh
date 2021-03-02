@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Install or update the server
+# Update or install the server
 /opt/steamcmd/steamcmd.sh \
     +login anonymous \
     +force_install_dir /opt/valheim/server \

@@ -7,6 +7,9 @@
     +app_update 896660 \
     +exit
 
+# Copy 64bit Steam client
+cp /opt/steamcmd/linux64/steamclient.so /opt/valheim/server/
+
 # Server settings and default values
 SERVER_NAME="${SERVER_NAME:-Valheim Server}"
 SERVER_PASSWORD="${SERVER_PASSWORD:-secret}"

@@ -7,18 +7,14 @@
     +app_update 896660 \
     +exit
 
-# Copy 64bit Steam client
-cp /opt/steamcmd/linux64/steamclient.so /opt/valheim/server/
-
 # Server settings and default values
 SERVER_NAME="${SERVER_NAME:-Valheim Server}"
 SERVER_PASSWORD="${SERVER_PASSWORD:-secret}"
 SERVER_PORT=${SERVER_PORT:-2456}
 SERVER_WORLD="${SERVER_WORLD:-Valheim}"
 
-# Valheim game
-export LD_LIBRARY=./linux64:${LD_LIBRARY_PATH}
-export SteamAppId=892970
+# Valheim server x86_64 library path
+export LD_LIBRARY_PATH=/opt/valheim/server/linux64:${LD_LIBRARY_PATH}
 
 # Start the server as a background job
 echo "Starting server:"

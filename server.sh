@@ -16,9 +16,6 @@ export LD_LIBRARY_PATH=/opt/valheim/server/linux64:${LD_LIBRARY_PATH}
     +app_update 896660 \
     +exit
 
-# Trap SIGTERM and perform safe shutdown
-trap "kill -s SIGINT $!" SIGTERM
-
 # Start the server as a background job
 echo "Starting server:"
 echo "    Name    : ${SERVER_NAME}"
@@ -35,6 +32,9 @@ echo "    World   : ${SERVER_WORLD}"
     -batchmode \
     -nographics \
     | tee -a "/opt/valheim/data/${SERVER_WORLD}.log" &
+
+# Trap SIGTERM and perform safe shutdown
+trap "kill -s SIGINT $!" SIGTERM
 
 # Wait for the job to end
 wait $!

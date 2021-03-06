@@ -7,7 +7,7 @@ Docker image available at https://hub.docker.com/r/noblekangaroo/valheim-server
 A simple dedicated server Docker image for [Valheim](https://store.steampowered.com/app/892970/Valheim/) without any unnecessary dependencies (Rust, Odin, etc). This image contains everything you need to run a Valheim dedicated server, either as a standalone Docker container or using docker-compose. The image will install and use [steamcmd](https://developer.valvesoftware.com/wiki/SteamCMD) to download the dedicated server and keep it up to date.
 
 ### Environment variables
-There are three environment variables you can configure:
+There are four environment variables you can configure:
 
 Variable        | Default        | Description
 --------------- | -------------- | --------------------------------------------------

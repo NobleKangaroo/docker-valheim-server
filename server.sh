@@ -31,7 +31,7 @@ echo "    World   : ${SERVER_WORLD}"
     -public 1 \
     -batchmode \
     -nographics \
-    > >(tee -a "/opt/valheim/data/${SERVER_WORLD}.log") &
+    > >(tee -a "/opt/valheim/server/server.log") &
 
 # Trap SIGTERM and perform safe shutdown
 trap "kill -s SIGINT $!; wait" SIGTERM

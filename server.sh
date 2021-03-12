@@ -6,6 +6,9 @@ SERVER_PASSWORD="${SERVER_PASSWORD:-secret}"
 SERVER_PORT=${SERVER_PORT:-2456}
 SERVER_WORLD="${SERVER_WORLD:-Valheim}"
 
+# Steam APPID
+export SteamAppId=892970
+
 # Valheim server x86_64 library path
 export LD_LIBRARY_PATH=/opt/valheim/server/linux64:${LD_LIBRARY_PATH}
 

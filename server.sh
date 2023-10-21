@@ -14,8 +14,8 @@ export LD_LIBRARY_PATH=/opt/valheim/server/linux64:${LD_LIBRARY_PATH}
 
 # Update or install the server
 /opt/steamcmd/steamcmd.sh \
-    +login anonymous \
     +force_install_dir /opt/valheim/server \
+    +login anonymous \
     +app_update 896660 \
     +exit
 
